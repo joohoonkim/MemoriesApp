@@ -1,12 +1,18 @@
 .app_content{
+
+    --image-margin: 0.5rem;
+
+    padding: 5rem;
     background-color: $content-bg-color;
 
     h1{
+        margin:3rem;
         font-size: 3rem;
         color: $content-txt-color;
     }
 
     p{
+        margin:3rem;
         font-size: 1.5rem;
         color: $content-txt-color;
     }
@@ -20,10 +26,11 @@
     .content_column{
         flex: 100%;
         max-width: 100%;
-        padding: 0 32px;
+        padding: 0 var(--image-margin);
 
         img{
-            margin-top: 8px;
+            margin-top: var(--image-margin);
+            margin-bottom: var(--image-margin);
             vertical-align: middle;
             width: 100%;
             transition: transform $transform-time;
@@ -38,10 +45,11 @@
     .content_column_2{
         flex: 50%;
         max-width: 50%;
-        padding: 0 32px;
+        padding: 0 var(--image-margin);
 
         img{
-            margin-top: 8px;
+            margin-top: var(--image-margin);
+            margin-bottom: var(--image-margin);
             vertical-align: middle;
             width: 100%;
             transition: transform $transform-time;
@@ -57,10 +65,11 @@
     .content_column_3{
         flex: 33%;
         max-width: 33%;
-        padding: 0 32px;
+        padding: 0 var(--image-margin);
 
         img{
-            margin-top: 8px;
+            margin-top: var(--image-margin);
+            margin-bottom: var(--image-margin);
             vertical-align: middle;
             width: 100%;
             transition: transform $transform-time;
@@ -74,7 +83,7 @@
 
     /* Responsive layout - makes a two column-layout instead of four columns */
     @media screen and (max-width: 800px) {
-        .content_column {
+        .content_column_2, .content_column_3{
         flex: 50%;
         max-width: 50%;
         }
@@ -82,7 +91,7 @@
 
     /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
     @media screen and (max-width: 600px) {
-        .content_column {
+        .content_column_2, .content_column_3{
         flex: 100%;
         max-width: 100%;
         }

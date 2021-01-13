@@ -19,3 +19,5 @@ use App\Http\Controllers\PostController;
 Route::get('/',[PagesController::class, 'index']);
 
 Route::get('/main',[PostController::class, 'index']);
+
+Route::get('/post',[PostController::class, 'create']);
