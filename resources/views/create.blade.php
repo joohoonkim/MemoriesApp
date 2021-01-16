@@ -14,7 +14,7 @@
                 <!-- Content Main -->
                 <div class="col-md-12">
                     <div class="rounded content-main shadow-sm" style="margin-top:2rem; margin-bottom:2rem; padding:4rem;">
-                        <h1>Add a Post</h1>
+                        <h1>Add a Memory</h1>
                     </div>
                 </div><!-- /.content-main -->
             </div><!-- /.content-page -->
