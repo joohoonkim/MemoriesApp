@@ -9,10 +9,13 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
     <body>
-        <div class="app_banner">
-            <h1>Memories</h1>
-        </div>
         <div class="row">
+            <div class="col-12 app_banner">
+                <h1>Memories</h1>
+                <div class="btn">
+                    <a href="/main/create">Create</a>
+                </div>
+            </div>
             <div class="col-2 app_sidebar">
             </div>
             <div class="col-8 app_content" id="post">

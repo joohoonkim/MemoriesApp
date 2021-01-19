@@ -17,7 +17,9 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/',[PagesController::class, 'index']);
+Route::post('/',[PagesController::class, 'authenticate']);
 
 Route::get('/main',[PostController::class, 'index']);
 
 Route::get('/main/create',[PostController::class, 'create']);
+Route::post('/main/create',[PostController::class, 'store']);
