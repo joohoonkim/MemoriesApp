@@ -25,7 +25,7 @@
         </div>
     </body>
     <script>
-        var imagesURL = '{{asset('/storage/images/')}}';
+        var imagesURL = '{{asset('/storage/files/')}}';
         console.log(imagesURL);
         var posts = {!! json_encode($posts->toArray() ?? 'error retrieving post', JSON_HEX_TAG) !!};
     </script>

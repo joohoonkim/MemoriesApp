@@ -45,7 +45,30 @@ class PostController extends Controller
             'body' => 'required'
         ]);
 
-        return "HELLO";
+        $post = new Post;
+        
+        $post->slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'));
+        $post->title = $request->input('title');
+        $post->event_date = $request->input('event_date');
+        $post->description = $request->input('body');
+        $images_string = "";
+
+        if($request->hasfile('images'))
+        {
+            foreach($request->file('images') as $key => $file)
+            {
+                $path = $file->store('public/files');
+                echo $file.'<br>';
+                echo $path.'<br>';
+                $str_arr = preg_split ("~/~", $path);  
+                $images_string .= end($str_arr).",";
+            }
+        }
+        $post->images = $images_string;
+        $post->gallery_type = "true";
+        $post->save();
+
+        return redirect('/main');
     }
 
     /**

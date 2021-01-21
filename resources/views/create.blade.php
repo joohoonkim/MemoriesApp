@@ -27,6 +27,9 @@
                                 {{Form::textarea('body', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Enter a description'])}}
                             </div>
                             <div class="form-group">
+                                {{ Form::date('event_date', date('Y-m-d', strtotime(date("Y-m-d")))) }}  
+                            </div>
+                            <div class="form-group">
                                 <input type="file" name="images[]" accept="image/*" multiple>
                             </div>
                             {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
