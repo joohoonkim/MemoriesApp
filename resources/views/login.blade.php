@@ -9,15 +9,12 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
     <body>
-        <div class="rounded content-main shadow-sm" style="margin-top:2rem; margin-bottom:2rem; padding:4rem;">
+        <div class="rounded login_box shadow-sm">
         {!! Form::open(['action' => 'App\Http\Controllers\PagesController@authenticate', 'method' => 'POST']) !!}
             <div class="form-group">
-                {{Form::text('username', "", ['placeholder'=>'Username','maxlength'=>30])}}
+                {{Form::text('passphrase', "", ['placeholder'=>'What is the pass phrase?','maxlength'=>30])}}
             </div>
-            <div class="form-group">
-                {{Form::password('password', ['placeholder'=>'Password','maxlength'=>30])}}
-            </div>
-            {{Form::submit('Submit')}}
+            {{Form::submit('Enter')}}
         {!! Form::close() !!}
         </div>
     </body>
