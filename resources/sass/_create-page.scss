@@ -1,0 +1,15 @@
+.create-page{
+    padding: 5rem;
+    background-color: $secondary;
+
+    .content-main{
+        margin: 5rem;
+        background-color: $tertiary;
+    }
+
+    .back-button{
+        a{
+            color: $banner-txt-color;
+        }
+    }
+}

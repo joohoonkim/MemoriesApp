@@ -7,6 +7,8 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
+$black: #000000;
+$white: #ffffff;
 $blue: #3490dc;
 $indigo: #6574cd;
 $purple: #9561e2;
@@ -18,14 +20,21 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
+// Color Scheme
+$primary:#D51243;
+$secondary: #F59A9A;
+$tertiary: #F0DCD3;
+$text: #312E34;
+
 // Environment Specific Colors
-$body-bg: #2b1fd6;
-$banner-bg-color: #000000;
-$banner-txt-color: #849499;
-$content-bg-color: #252525;
-$content-txt-color: #849499;
-$sidebar-bg-color: #2b1fd6;
-$sidebar-txt-color: #849499;
+$body-bg: $secondary;
+$banner-bg-color: $secondary;
+$banner-txt-color: $white;
+$content-bg-color: $tertiary;
+$content-txt-color: $text;
+$sidebar-bg-color: $secondary;
+$sidebar-txt-color: $text;
+$login-bg: $primary;
 
 // Featueres
 $image-zoom: 1.05;
