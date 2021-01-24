@@ -55,13 +55,18 @@ class PostController extends Controller
 
         if($request->hasfile('images'))
         {
+            $i = 0;
             foreach($request->file('images') as $key => $file)
             {
                 $path = $file->store('public/files');
                 echo $file.'<br>';
                 echo $path.'<br>';
                 $str_arr = preg_split ("~/~", $path);  
-                $images_string .= end($str_arr).",";
+                if(++$i === count($request->file('images'))){
+                    $images_string .= end($str_arr);
+                }else{
+                    $images_string .= end($str_arr).",";
+                }
             }
         }
         $post->images = $images_string;
