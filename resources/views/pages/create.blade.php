@@ -11,7 +11,7 @@
     <body>
         <main class="create-page" role="content">
             <div class="back-button">
-                <a href="/main">Back</a>
+                <a href="/">Back</a>
             </div>
             <div class="rounded content-main shadow-sm" style="margin-top:2rem; margin-bottom:2rem; padding:4rem;">
                 <h1>Add a Memory</h1>

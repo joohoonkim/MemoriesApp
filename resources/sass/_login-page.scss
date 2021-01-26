@@ -1,7 +1,9 @@
 .login_box{
 
-    margin: 5rem;
-    padding: 5rem;
+    margin: 2rem;
+    padding: 1rem;
 
-    background-color: #272557;
+    border-radius: 1rem;
+    box-shadow: 0.5rem 1rem;
+    background-color: $tertiary;
 }

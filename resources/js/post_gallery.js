@@ -1,5 +1,9 @@
 const { forEach } = require("lodash");
 
+function addEditOption(){
+
+}
+
 function displayPostGallery(element, html_string){
     element.insertAdjacentHTML("beforeend",html_string);
 }
