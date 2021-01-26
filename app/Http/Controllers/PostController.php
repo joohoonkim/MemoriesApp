@@ -8,6 +8,11 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +21,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();           // Get all the posts, TODO::Limit amount using pagination
-        return view('main')->with([     // Return the view, send all the posts to the view
+        return view('pages.main')->with([     // Return the view, send all the posts to the view
             'posts'=>$posts
             ]);
     }
@@ -28,7 +33,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('pages.create');
     }
 
     /**
@@ -73,7 +78,7 @@ class PostController extends Controller
         $post->gallery_type = "true";
         $post->save();
 
-        return redirect('/main');
+        return redirect('/');
     }
 
     /**
