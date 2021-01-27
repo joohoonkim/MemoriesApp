@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 
+use Illuminate\Support\Facades\Storage;
+
 class PostController extends Controller
 {
     public function __construct()
@@ -101,6 +103,8 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+        return view('pages.edit')->with('post',$post);
     }
 
     /**
@@ -113,6 +117,41 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        //
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $post = Post::find($id);
+        
+        $post->slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'));
+        $post->title = $request->input('title');
+        $post->event_date = $request->input('event_date');
+        $post->description = $request->input('body');
+        $images_string = "";
+
+        if($request->hasfile('images'))
+        {
+            $i = 0;
+            foreach($request->file('images') as $key => $file)
+            {
+                $path = $file->store('public/files');
+                echo $file.'<br>';
+                echo $path.'<br>';
+                $str_arr = preg_split ("~/~", $path);  
+                if(++$i === count($request->file('images'))){
+                    $images_string .= end($str_arr);
+                }else{
+                    $images_string .= end($str_arr).",";
+                }
+            }
+        }
+        $post->images = $images_string;
+        $post->gallery_type = "true";
+        $post->save();
+
+        return redirect('/')->with('success', 'Memory Updated');
     }
 
     /**
@@ -124,5 +163,14 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::find($id);
+
+        $images_array = explode(',', $post->images);
+        foreach($images_array as $img){
+            Storage::delete("public/files/".$img);
+        }
+        
+        $post->delete();
+        return redirect('/')->with('success', 'Memory Deleted');
     }
 }
