@@ -129,7 +129,11 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->event_date = $request->input('event_date');
         $post->description = $request->input('body');
-        $images_string = "";
+        $images_string = $post->images;
+
+        if($images_string !== ""){
+            $images_string .= ",";
+        }
 
         if($request->hasfile('images'))
         {
@@ -137,8 +141,6 @@ class PostController extends Controller
             foreach($request->file('images') as $key => $file)
             {
                 $path = $file->store('public/files');
-                echo $file.'<br>';
-                echo $path.'<br>';
                 $str_arr = preg_split ("~/~", $path);  
                 if(++$i === count($request->file('images'))){
                     $images_string .= end($str_arr);
@@ -169,7 +171,7 @@ class PostController extends Controller
         foreach($images_array as $img){
             Storage::delete("public/files/".$img);
         }
-        
+
         $post->delete();
         return redirect('/')->with('success', 'Memory Deleted');
     }
