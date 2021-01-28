@@ -1,4 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-light app_banner">
+@if (Auth::user())
+<nav class="navbar navbar-expand-md navbar-light app_banner" id="navbar_container">
+@else
+<nav class="navbar navbar-expand-md navbar-light app_banner_login">
+@endif
     <a class="logo" href="{{ url('/') }}">
         {{ config('app.name', 'Laravel') }}
     </a>
@@ -11,7 +15,7 @@
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
             @guest
-                {{-- @if (Route::has('login'))
+                @if (Route::has('login'))
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
@@ -21,7 +25,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
-                @endif --}}
+                @endif
             @else
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -30,7 +34,6 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/create">Create</a>
-                        <a class="dropdown-item" onclick="addEditOption()">Edit</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">

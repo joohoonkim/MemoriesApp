@@ -6,6 +6,11 @@
         <h1>Edit a Memory</h1>
     </div>
     <div class="rounded content-main shadow-sm" style="margin-top:2rem; margin-bottom:2rem; padding:4rem;">
+        {!! Form::open(['action' => ['App\Http\Controllers\PostController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right']) !!}
+            @method('DELETE')
+            {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+        {!! Form::close() !!}
+        <br>
         {!! Form::open(['action' => ['App\Http\Controllers\PostController@update', $post->id], 'enctype' => 'multipart/form-data', 'method' => 'POST']) !!}
             @method('PUT')
             <div class="form-group">
@@ -22,12 +27,17 @@
             <div class="form-group">
                 <input type="file" name="images[]" accept="image/*" multiple>
             </div>
+            <div class="app_content" id="edit_images">
+            </div>
             {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
-            {!! Form::open(['action' => ['App\Http\Controllers\PostController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right']) !!}
-                @method('DELETE')
-                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-            {!! Form::close() !!}
         {!! Form::close() !!}
     </div>
 </main><!-- /.container -->
+@endsection
+
+@section('footer-scripts')
+    <script>
+        var imagesURL = '{{asset('/storage/files/')}}';
+        var edit_post = {!! json_encode($post ?? 'error retrieving post', JSON_HEX_TAG) !!};
+    </script>
 @endsection

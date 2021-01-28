@@ -1,22 +1,25 @@
 const { forEach } = require("lodash");
 
-function addEditOption(){
-
-}
-
 function displayPostGallery(element, html_string){
     element.insertAdjacentHTML("beforeend",html_string);
 }
 
 (function(){
-    if(posts){
+    if(typeof posts !== 'undefined'){
         posts.forEach(function(p) {
             var images = p.images.replace(/ /g,'').split(',');                   //array of paths to images
             let post_element = document.getElementById("post"); //element to put gallery
 
-            var title_string = `<h1>${p.title}</h1>
-                                <div class="content_row">`;
-            var content_string = ``;
+            if(editable_g){
+                var edit_button = `<a href="/post/${p.id}/edit" class="btn btn-default">Edit</a>`;
+            }else{
+                var edit_button = ``;
+            }
+
+            var title_string = `<div class="content_header">
+                                <h1>${p.title}</h1>`+edit_button+
+                                `</div>`;
+            var content_string = `<div class="content_row">`;
             if(images.length == 1){
                 content_string += `
                 <div class="content_column">
