@@ -12,6 +12,9 @@
         <div class="app_sidebar">
         </div>
     </div>
+    <div class="ajax-load text-center" style="display:none">
+        <p>Loading More post</p>
+    </div>
 @endsection
 
 @section('footer-scripts')
@@ -24,26 +27,43 @@
             var editable_g = false;
         </script>
     @endif
+    <script src="{{ asset('js/post_gallery.js') }}" defer></script>
     <script>
         var imagesURL = '{{asset('/storage/files/')}}';
         var posts = {!! json_encode($posts->toArray() ?? 'error retrieving post', JSON_HEX_TAG) !!};
     </script>
-    {{-- <script>
-        window.onscroll = function() {myFunction()};
-
-        var navbar = document.getElementById("navbar_container");
-        var sticky = document.getElementsByClassName("app_container")[0].offsetTop;
-
-        function myFunction() {
-            console.log(sticky);
-            console.log(window.pageYOffset);
-            if (window.pageYOffset >= sticky) {
-                navbar.classList.add("app_banner_sticky");
-                navbar.classList.remove("app_banner")
-            } else {
-                navbar.classList.remove("app_banner_sticky");
-                navbar.classList.add("app_banner");
+    <script type="text/javascript">
+        var page = 1;
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                page++;
+                loadMoreData(page);
             }
+        });
+    
+        function loadMoreData(page){
+            $.ajax(
+                {
+                    url: '/?page=' + page,
+                    type: "get",
+                    beforeSend: function()
+                    {
+                        $('.ajax-load').show();
+                    }
+                })
+                .done(function(data)
+                {
+                    if(data.posts.data.length == 0){
+                        $('.ajax-load').html("<div class='app_footer'></div>");
+                        return;
+                    }
+                    mainDisplayPosts(data.posts);
+                    $('.ajax-load').hide();
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError)
+                {
+                      alert('server not responding...');
+                });
         }
-    </script> --}}
+    </script>
 @endsection
