@@ -20,9 +20,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::all();           // Get all the posts, TODO::Limit amount using pagination
+        // $posts = Post::all();           // Get all the posts, TODO::Limit amount using pagination
+        $posts = Post::orderBy('event_date','desc')
+        ->paginate(2);
+
+        if ($request->ajax()) {
+            return response()->json(['posts'=>$posts]);
+        }
+
         return view('pages.main')->with([     // Return the view, send all the posts to the view
             'posts'=>$posts
             ]);
@@ -131,12 +138,12 @@ class PostController extends Controller
         $post->description = $request->input('body');
         $images_string = $post->images;
 
-        if($images_string !== ""){
-            $images_string .= ",";
-        }
-
         if($request->hasfile('images'))
         {
+            if($images_string !== ""){
+                $images_string .= ",";
+            }
+            
             $i = 0;
             foreach($request->file('images') as $key => $file)
             {
