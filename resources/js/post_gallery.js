@@ -6,7 +6,7 @@ function displayPostGallery(element, html_string){
 
 (function(){
     if(typeof posts !== 'undefined'){
-        posts.forEach(function(p) {
+        posts.data.forEach(function(p) {
             var images = p.images.replace(/ /g,'').split(',');                   //array of paths to images
             let post_element = document.getElementById("post"); //element to put gallery
 
