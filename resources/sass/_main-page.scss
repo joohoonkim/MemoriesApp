@@ -8,7 +8,8 @@
     .logo{
         float: left;
         color: $banner-txt-color;
-        font-size: 3rem;
+        font-size: 5rem;
+        font-family:forte;
         text-decoration: none;
     }
 
@@ -20,6 +21,9 @@
     }
     
     @media screen and (max-width: 600px) {
+        .logo{
+            font-size: 3rem;
+        }
         background-image: url("/storage/assets/banner_small.png");
     }
 }
@@ -36,6 +40,7 @@
         float: left;
         color: $banner-txt-color;
         font-size: 3rem;
+        font-family:forte;
         text-decoration: none;
     }
 
@@ -54,7 +59,8 @@
     .logo{
         float: left;
         color: $banner-txt-color;
-        font-size: 3rem;
+        font-size: 5rem;
+        font-family:forte;
         text-decoration: none;
     }
 
@@ -81,6 +87,28 @@
 
 .app_sidebar{
     background-color: $sidebar-bg-color;
+}
+
+.app_footer{
+    background-color: $banner-bg-color;
+    background-image: url("/storage/assets/footer_image.png");
+    background-repeat: no-repeat;
+    display: block;
+
+    width: 1132px;
+    height: 358px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 5rem;
+    margin-bottom: 6rem;
+
+    @media screen and (max-width: 1200px) {
+        width: 434px;
+        height: 360px;
+        background-image: url("/storage/assets/footer_image_small.png");
+    }
 }
 
 .app_content{
