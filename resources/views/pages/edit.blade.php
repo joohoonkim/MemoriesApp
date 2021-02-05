@@ -6,7 +6,7 @@
         <h1>Edit a Memory</h1>
     </div>
     <div class="rounded content-main shadow-sm" style="margin-top:2rem; margin-bottom:2rem; padding:4rem;">
-        {!! Form::open(['action' => ['App\Http\Controllers\PostController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right']) !!}
+        {!! Form::open(['action' => ['App\Http\Controllers\PostController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right', 'id' => 'delete-form']) !!}
             @method('DELETE')
             {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
         {!! Form::close() !!}
@@ -41,5 +41,12 @@
         var imagesURL = '{{asset('/storage/files/')}}';
         var edit_post = {!! json_encode($post ?? 'error retrieving post', JSON_HEX_TAG) !!};
         window.displayEditImageGallery(edit_post,imagesURL);
+    </script>
+    <script>
+        $(function() {
+            $('#delete-form').click(function() {
+                return window.confirm("Are you sure?");
+            });
+        });
     </script>
 @endsection
