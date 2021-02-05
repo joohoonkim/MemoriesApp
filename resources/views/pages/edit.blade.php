@@ -36,8 +36,10 @@
 @endsection
 
 @section('footer-scripts')
+    <script src="{{ asset('js/edit_images.js') }}"></script>
     <script>
         var imagesURL = '{{asset('/storage/files/')}}';
         var edit_post = {!! json_encode($post ?? 'error retrieving post', JSON_HEX_TAG) !!};
+        window.displayEditImageGallery(edit_post,imagesURL);
     </script>
 @endsection

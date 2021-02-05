@@ -14,3 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
+
+mix.js('resources/js/post_gallery.js','public/js');
+
+mix.js('resources/js/edit_images.js','public/js');

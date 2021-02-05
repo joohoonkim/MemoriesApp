@@ -1,16 +1,10 @@
-const { forEach } = require("lodash");
-
-function displayPostGallery(element, html_string){
-    element.insertAdjacentHTML("beforeend",html_string);
-}
-
-(function(){
+function mainDisplayPosts(posts,editable){
     if(typeof posts !== 'undefined'){
         posts.data.forEach(function(p) {
             var images = p.images.replace(/ /g,'').split(',');                   //array of paths to images
             let post_element = document.getElementById("post"); //element to put gallery
 
-            if(editable_g){
+            if(editable){
                 var edit_button = `<a href="/post/${p.id}/edit" class="btn btn-default">Edit</a>`;
             }else{
                 var edit_button = ``;
@@ -58,7 +52,9 @@ function displayPostGallery(element, html_string){
             }
             content_string += `<p>${p.description}</p>`;
             var post_string = title_string + content_string + `</div>`;
-            displayPostGallery(post_element, post_string);
+            post_element.insertAdjacentHTML("beforeend",post_string);
         });
     }
-}())
+}
+
+window.mainDisplayPosts = mainDisplayPosts;

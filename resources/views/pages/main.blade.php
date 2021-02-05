@@ -20,22 +20,25 @@
 @section('footer-scripts')
     @if(Auth::user()->email == "admin@memories.app")
         <script>
-            var editable_g = true;
+            var post_editable = true;
         </script>
     @else
         <script>
-            var editable_g = false;
+            var post_editable = false;
         </script>
     @endif
-    <script src="{{ asset('js/post_gallery.js') }}" defer></script>
+    
+    <script src="{{ asset('js/post_gallery.js') }}"></script>
     <script>
         var imagesURL = '{{asset('/storage/files/')}}';
         var posts = {!! json_encode($posts->toArray() ?? 'error retrieving post', JSON_HEX_TAG) !!};
+        window.mainDisplayPosts(posts,post_editable);
     </script>
+
     <script type="text/javascript">
         var page = 1;
         $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+            if($(window).scrollTop() + $(window).height() >= $(document).height()-100) {
                 page++;
                 loadMoreData(page);
             }

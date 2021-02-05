@@ -1,8 +1,4 @@
-function displayPostGallery(element, html_string){
-    element.insertAdjacentHTML("beforeend",html_string);
-}
-
-(function(){
+function displayEditImageGallery(edit_post,imagesURL){
     if(typeof edit_post !== 'undefined'){
         var images = edit_post.images.replace(/ /g,'').split(',');                   //array of paths to images
             let post_element = document.getElementById("edit_images"); //element to put gallery
@@ -45,6 +41,8 @@ function displayPostGallery(element, html_string){
                 
             }
             var post_string = content_string + `</div>`;
-            displayPostGallery(post_element, post_string);
+            post_element.insertAdjacentHTML("beforeend",post_string);
     }
-}())
+}
+
+window.displayEditImageGallery = displayEditImageGallery;
