@@ -60,7 +60,7 @@
                         $('.ajax-load').html("<div class='app_footer'></div>");
                         return;
                     }
-                    mainDisplayPosts(data.posts);
+                    mainDisplayPosts(data.posts,post_editable);
                     $('.ajax-load').hide();
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError)
