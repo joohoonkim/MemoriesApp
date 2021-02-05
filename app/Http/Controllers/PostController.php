@@ -8,6 +8,8 @@ use App\Models\Post;
 
 use Illuminate\Support\Facades\Storage;
 
+use Intervention\Image\Facades\Image;
+
 class PostController extends Controller
 {
     public function __construct()
@@ -45,6 +47,26 @@ class PostController extends Controller
         return view('pages.create');
     }
 
+    public function image_resize($file)
+    {
+        $image_max = 800;
+
+        $img = Image::make($file);
+
+        if($img->height() > $image_max || $img->width() > $image_max){
+            $img->resize($image_max, $image_max, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
+        $jpg = (string)$img->encode("jpg");
+
+        $filename = uniqid().'.jpg';
+        Storage::put('public/files/'.$filename,$jpg);
+        $path = Storage::path('public/files/'.$filename);
+        return $path;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -56,7 +78,8 @@ class PostController extends Controller
         //
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
         $post = new Post;
@@ -69,14 +92,12 @@ class PostController extends Controller
 
         if($request->hasfile('images'))
         {
-            $i = 0;
             foreach($request->file('images') as $key => $file)
             {
-                $path = $file->store('public/files');
-                echo $file.'<br>';
-                echo $path.'<br>';
+                $path = $this->image_resize($file);
+
                 $str_arr = preg_split ("~/~", $path);  
-                if(++$i === count($request->file('images'))){
+                if(++$key === count($request->file('images'))){
                     $images_string .= end($str_arr);
                 }else{
                     $images_string .= end($str_arr).",";
@@ -127,7 +148,8 @@ class PostController extends Controller
         //
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
         $post = Post::find($id);
@@ -144,12 +166,12 @@ class PostController extends Controller
                 $images_string .= ",";
             }
             
-            $i = 0;
             foreach($request->file('images') as $key => $file)
             {
-                $path = $file->store('public/files');
+                $path = $this->image_resize($file);
+
                 $str_arr = preg_split ("~/~", $path);  
-                if(++$i === count($request->file('images'))){
+                if(++$key === count($request->file('images'))){
                     $images_string .= end($str_arr);
                 }else{
                     $images_string .= end($str_arr).",";
