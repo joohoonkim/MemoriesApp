@@ -78,7 +78,7 @@ class PostController extends Controller
         //
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required',
+            'description' => 'required',
             'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
@@ -87,7 +87,7 @@ class PostController extends Controller
         $post->slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'));
         $post->title = $request->input('title');
         $post->event_date = $request->input('event_date');
-        $post->description = $request->input('body');
+        $post->description = $request->input('description');
         $images_string = "";
 
         if($request->hasfile('images'))
@@ -148,7 +148,7 @@ class PostController extends Controller
         //
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required',
+            'description' => 'required',
             'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
@@ -157,7 +157,7 @@ class PostController extends Controller
         $post->slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'));
         $post->title = $request->input('title');
         $post->event_date = $request->input('event_date');
-        $post->description = $request->input('body');
+        $post->description = $request->input('description');
         $images_string = $post->images;
 
         if($request->hasfile('images'))
