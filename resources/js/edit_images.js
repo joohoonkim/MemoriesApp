@@ -4,7 +4,7 @@ function displayEditImageGallery(edit_post,imagesURL){
             let post_element = document.getElementById("edit_images"); //element to put gallery
 
             var content_string = `<div class="content_row">`;
-            if(images.length == 1){
+            if(images.length == 1 && images[0] !== ""){
                 content_string += `
                 <div class="content_column">
                     <img class="rounded img-fluid" src="${imagesURL}/${images[0]}" alt="${images[0]}">

@@ -1,7 +1,7 @@
 function mainDisplayPosts(posts,editable){
     if(typeof posts !== 'undefined'){
         posts.data.forEach(function(p) {
-            var images = p.images.replace(/ /g,'').split(',');                   //array of paths to images
+            var images = p.images.replace(/ /g,'').split(',');  //array of paths to images
             let post_element = document.getElementById("post"); //element to put gallery
 
             if(editable){
@@ -14,7 +14,7 @@ function mainDisplayPosts(posts,editable){
                                 <h1>${p.title}</h1>`+edit_button+
                                 `</div>`;
             var content_string = `<div class="content_row">`;
-            if(images.length == 1){
+            if(images.length == 1 && images[0] !== ""){
                 content_string += `
                 <div class="content_column">
                     <img class="rounded img-fluid" src="${imagesURL}/${images[0]}" alt="${images[0]}">
