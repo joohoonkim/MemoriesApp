@@ -33,7 +33,8 @@
                 {{ Form::date('event_date', date('Y-m-d', strtotime($post->event_date))) }}  
             </div>
             <div class="form-group">
-                <input type="file" name="images[]" accept="image/*" onchange="loadImage(event)" multiple>
+                <input id="upload-images" type="file" name="images[]" accept="image/*" onchange="loadImage(event)" style="display: none;" multiple>
+                <label class="image-button" for="upload-images" style="cursor: pointer;">Upload Images</label>
             </div>
             <div class="app_content" id="edit_images">
             </div>
@@ -51,7 +52,7 @@
             $('#edit_images').html("");
             var indx = all_posts.indexOf(element);
             all_posts = all_posts.filter(item => item !== element)
-            window.displayEditImageGallery(all_posts,imagesURL);
+            window.displayEditImageGallery(all_posts);
         };
     </script>
     <script>
@@ -61,7 +62,7 @@
         original_posts.forEach(function(element,index,array){
             array[index] = imagesURL + "/" + element;
         });
-        window.displayEditImageGallery(original_posts,imagesURL);
+        window.displayEditImageGallery(original_posts);
         var all_posts = original_posts;
 
         // Load images on webpage after user uploads
@@ -73,7 +74,7 @@
                 all_posts.push(URL.createObjectURL(element));
             });
             $('#edit_images').html("");
-            window.displayEditImageGallery(all_posts,imagesURL);
+            window.displayEditImageGallery(all_posts);
         }
     </script>
     <script>
