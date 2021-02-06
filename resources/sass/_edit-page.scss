@@ -25,3 +25,20 @@
         background-color: rgb(254, 154, 154);;
     }
 }
+
+// USED FOR BOTH EDIT AND CREATE PAGES
+.image-button {
+    background-color: rgb(254,154,154);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.image-button:hover{
+    background-color: rgb(255, 180, 180);
+}
