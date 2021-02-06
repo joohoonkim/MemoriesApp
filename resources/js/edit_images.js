@@ -1,13 +1,16 @@
-function displayEditImageGallery(edit_post,imagesURL){
+function displayEditImageGallery(edit_post){
     if(typeof edit_post !== 'undefined'){
-        var images = edit_post.images.replace(/ /g,'').split(',');                   //array of paths to images
+        var images = edit_post;                   //array of paths to images
             let post_element = document.getElementById("edit_images"); //element to put gallery
 
             var content_string = `<div class="content_row">`;
             if(images.length == 1 && images[0] !== ""){
                 content_string += `
                 <div class="content_column">
-                    <img class="rounded img-fluid" src="${imagesURL}/${images[0]}" alt="${images[0]}">
+                    <div class="edit-image-container" id="image-container-${images[0]}">
+                        <img class="rounded img-fluid" src="${images[0]}" alt="${images[0]}">
+                        <button class="btn" id="delete-button-${images[0]}" onclick="removeImage('${images[0]}');">delete</button>
+                    </div>
                 </div>`;
             }else if (images.length == 2 || images.length == 4) {
                 var idx = 0;
@@ -15,7 +18,11 @@ function displayEditImageGallery(edit_post,imagesURL){
                     content_string += `<div class="content_column_2">`
                     for(j=0;j<Math.ceil(images.length/2);j++){
                         if(images[idx] !== undefined && images[idx] !== null){
-                            content_string += `<img class="rounded img-fluid" src="${imagesURL}/${images[idx]}" alt="${images[idx]}">`
+                            content_string += `<div class="edit-image-container" id="image-container-${images[idx]}">
+                                <img class="rounded img-fluid" src="${images[idx]}" alt="${images[idx]}">
+                                <button class="btn" id="delete-button-${images[idx]}" onclick="removeImage('${images[idx]}');">delete</button>
+                            </div>
+                            `
                             idx += 1;
                         }else{
                             break;
@@ -29,7 +36,11 @@ function displayEditImageGallery(edit_post,imagesURL){
                     content_string += `<div class="content_column_3">`
                     for(j=0;j<Math.ceil(images.length/3);j++){
                         if(images[idx] !== undefined && images[idx] !== null){
-                            content_string += `<img class="rounded img-fluid" src="${imagesURL}/${images[idx]}" alt="${images[idx]}">`
+                            content_string += `<div class="edit-image-container" id="image-container-${images[idx]}">
+                                <img class="rounded img-fluid" src="${images[idx]}" alt="${images[idx]}">
+                                <button class="btn" id="delete-button-${images[idx]}" onclick="removeImage('${images[idx]}');">delete</button>
+                            </div>
+                            `
                             idx += 1;
                         }else{
                             break;
