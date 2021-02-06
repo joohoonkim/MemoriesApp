@@ -46,17 +46,16 @@
 @section('footer-scripts')
     <script src="{{ asset('js/edit_images.js') }}"></script>
     <script>
+        // remove image if "deleted" and display new organized image gallery.
         function removeImage(element){
             $('#edit_images').html("");
             var indx = all_posts.indexOf(element);
-            console.log(element);
-            console.log(all_posts);
             all_posts = all_posts.filter(item => item !== element)
-            console.log(all_posts);
             window.displayEditImageGallery(all_posts,imagesURL);
         };
     </script>
     <script>
+        // Initial images displayed on webpage
         var imagesURL = '{{asset('/storage/files/')}}';
         var original_posts = {!! json_encode($post ?? 'error retrieving post', JSON_HEX_TAG) !!}.images.replace(/ /g,'').split(',');
         original_posts.forEach(function(element,index,array){
@@ -64,10 +63,9 @@
         });
         window.displayEditImageGallery(original_posts,imagesURL);
         var all_posts = original_posts;
-        console.log(all_posts);
 
+        // Load images on webpage after user uploads
         var loadImage = function(event){
-            console.log(all_posts);
             Array.from(event.target.files).forEach(function(element, index, array){
                 if(all_posts == ""){
                     all_posts.push(URL.createObjectURL(element));
