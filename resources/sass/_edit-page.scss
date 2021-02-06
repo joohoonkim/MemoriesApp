@@ -1,0 +1,27 @@
+.edit-image-container{
+    position: relative;
+
+    img{
+        width: 100%;
+        height: auto;
+    }
+
+    .btn{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        background-color: rgba(254, 154, 154, 0.295);
+        color: white;
+        font-size: 16px;
+        padding: 12px 24px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .btn:hover{
+        background-color: rgb(254, 154, 154);;
+    }
+}
