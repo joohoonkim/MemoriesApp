@@ -36,7 +36,12 @@
     </script>
 
     <script type="text/javascript">
-        var page = 1;
+
+        // page globals
+        var page = 1;               //keep track of pagination
+        var page_end = false;       //status if there are no more pages left
+
+        /* user scroll near bottom of the page event, load more data */
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() >= $(document).height()-100) {
                 page++;
@@ -44,29 +49,43 @@
             }
         });
     
+        /* load more data */
         function loadMoreData(page){
-            $.ajax(
-                {
-                    url: '/?page=' + page,
-                    type: "get",
-                    beforeSend: function()
+            if(page_end == false){
+                $.ajax(
                     {
-                        $('.ajax-load').show();
-                    }
-                })
-                .done(function(data)
-                {
-                    if(data.posts.data.length == 0){
-                        $('.ajax-load').html("<div class='app_footer'></div>");
-                        return;
-                    }
-                    mainDisplayPosts(data.posts,post_editable);
-                    $('.ajax-load').hide();
-                })
-                .fail(function(jqXHR, ajaxOptions, thrownError)
-                {
-                      alert('server not responding...');
-                });
+                        url: '/?page=' + page,
+                        type: "get",
+                        beforeSend: function()
+                        {
+                            $('.ajax-load').show();
+                        }
+                    })
+                    .done(function(data)
+                    {
+                        if(data.posts.data.length == 0){
+                            if (!document.getElementById("app_footer")) {
+                                appendFooter();
+                            }
+                            page_end = true;
+                            return;
+                        }
+                        mainDisplayPosts(data.posts,post_editable);
+                        $('.ajax-load').hide();
+                    })
+                    .fail(function(jqXHR, ajaxOptions, thrownError)
+                    {
+                        alert('server not responding...');
+                    });
+            }
+        }
+
+        /* append footer */
+        function appendFooter(){
+            $('.ajax-load').hide();
+            let footer_element = document.getElementById("app"); //element to put gallery
+            let footer_string = "<div class='app_footer' id='app_footer'></div>";
+            footer_element.insertAdjacentHTML("beforeend",footer_string);
         }
     </script>
 @endsection
