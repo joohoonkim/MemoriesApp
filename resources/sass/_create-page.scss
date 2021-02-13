@@ -4,6 +4,9 @@
     --content-margin: 5rem;
     --content-padding: 3rem;
 
+    --image-padding: 0.3rem;
+    --image-margin: 0.3rem;
+
     border-radius: 1rem;
     padding-left: var(--content-padding);
     padding-right: var(--content-padding);
@@ -30,5 +33,24 @@
         --content-margin: 0rem;
         --content-padding: 0.5rem;
     }
-    
+ 
+    .content_row{
+        display: flex;
+        flex-wrap: wrap;
+        .content_column{
+            flex: 33%;
+            max-width: 33%;
+            padding: var(--image-padding);
+
+            img{
+                width: 100%;
+                transition: transform $transform-time;
+            }
+
+            img:hover{
+                transform: scale($image-zoom); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+                filter:brightness($image-brighten);
+            }
+        }
+    }
 }
