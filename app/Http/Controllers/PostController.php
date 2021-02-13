@@ -26,7 +26,7 @@ class PostController extends Controller
     {
         // $posts = Post::all();           // Get all the posts, TODO::Limit amount using pagination
         $posts = Post::orderBy('event_date','desc')
-        ->paginate(2);
+        ->paginate(4);
 
         if ($request->ajax()) {
             return response()->json(['posts'=>$posts]);
@@ -47,26 +47,6 @@ class PostController extends Controller
         return view('pages.create');
     }
 
-    public function image_resize($file)
-    {
-        $image_max = 800;
-
-        $img = Image::make($file);
-
-        if($img->height() > $image_max || $img->width() > $image_max){
-            $img->resize($image_max, $image_max, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        }
-        $jpg = (string)$img->encode("jpg");
-
-        $filename = uniqid().'.jpg';
-        Storage::put('public/files/'.$filename,$jpg);
-        $path = Storage::path('public/files/'.$filename);
-        return $path;
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -79,6 +59,7 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
+            'event_date' => 'required',
             'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
@@ -92,12 +73,12 @@ class PostController extends Controller
 
         if($request->hasfile('images'))
         {
+            $i = 0;
             foreach($request->file('images') as $key => $file)
             {
-                $path = $this->image_resize($file);
-
+                $path = $file->store('public/files');
                 $str_arr = preg_split ("~/~", $path);  
-                if(++$key === count($request->file('images'))){
+                if(++$i === count($request->file('images'))){
                     $images_string .= end($str_arr);
                 }else{
                     $images_string .= end($str_arr).",";
@@ -149,29 +130,34 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
+            'event_date' => 'required',
             'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
-
         $post = Post::find($id);
-        
+
         $post->slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'));
         $post->title = $request->input('title');
         $post->event_date = $request->input('event_date');
         $post->description = $request->input('description');
-        $images_string = $post->images;
+        $images_string = "";
+
+        // Handle deleted images
+        $current_images = explode(",",$post->images);
+        $deleted_images = explode(",",$request->input('deleted_images'));
+        $new_images = array_diff($current_images,$deleted_images);
+        $images_string = implode(",",$new_images);
 
         if($request->hasfile('images'))
         {
+            $i = 0;
             if($images_string !== ""){
                 $images_string .= ",";
             }
-            
             foreach($request->file('images') as $key => $file)
             {
-                $path = $this->image_resize($file);
-
+                $path = $file->store('public/files');
                 $str_arr = preg_split ("~/~", $path);  
-                if(++$key === count($request->file('images'))){
+                if(++$i === count($request->file('images'))){
                     $images_string .= end($str_arr);
                 }else{
                     $images_string .= end($str_arr).",";
@@ -182,7 +168,12 @@ class PostController extends Controller
         $post->gallery_type = "true";
         $post->save();
 
-        return redirect('/')->with('success', 'Memory Updated');
+        // Delete the images we no longer use
+        foreach($deleted_images as $img){
+            Storage::delete("public/files/".$img);
+        }
+
+        return redirect('/');
     }
 
     /**
