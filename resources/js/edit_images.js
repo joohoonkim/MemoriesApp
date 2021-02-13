@@ -1,58 +1,48 @@
-function displayEditImageGallery(edit_post){
-    if(typeof edit_post !== 'undefined'){
-        var images = edit_post;                   //array of paths to images
-            let post_element = document.getElementById("edit_images"); //element to put gallery
+function uploadNewImage(post){
+    var reader = new FileReader();
+    reader.onload = (function(theFile){
+        var filename = theFile.name;
 
-            var content_string = `<div class="content_row">`;
-            if(images.length == 1 && images[0] !== ""){
-                content_string += `
-                <div class="content_column">
-                    <div class="edit-image-container" id="image-container-${images[0]}">
-                        <img class="rounded img-fluid" src="${images[0]}" alt="${images[0]}">
-                        <button class="btn" id="delete-button-${images[0]}" onclick="removeImage('${images[0]}');">delete</button>
-                    </div>
-                </div>`;
-            }else if (images.length == 2 || images.length == 4) {
-                var idx = 0;
-                for(i=0;i<2;i++){
-                    content_string += `<div class="content_column_2">`
-                    for(j=0;j<Math.ceil(images.length/2);j++){
-                        if(images[idx] !== undefined && images[idx] !== null){
-                            content_string += `<div class="edit-image-container" id="image-container-${images[idx]}">
-                                <img class="rounded img-fluid" src="${images[idx]}" alt="${images[idx]}">
-                                <button class="btn" id="delete-button-${images[idx]}" onclick="removeImage('${images[idx]}');">delete</button>
-                            </div>
-                            `
-                            idx += 1;
-                        }else{
-                            break;
-                        }
-                    }
-                    content_string += `</div>`;
+        return function(e){
+            let row_element = document.getElementById('content_row');
+            var image_string = `
+            <div class="content_column">
+                <div class="edit-image-container" id="image-container-${filename}">
+                    <img class="rounded img-fluid" src="${e.target.result}" alt="${filename}">
+                    <button class="btn" id="delete-button-${filename}" onclick="removeImage('${filename}');">delete</button>
+                </div>
+            </div>`;
+            row_element.insertAdjacentHTML("beforeend",image_string);
+        };
+
+    })(post.file);
+    reader.readAsDataURL(post.file);
+}
+
+function uploadOriginalImage(post,imagesURL){
+    let row_element = document.getElementById('content_row');
+    var image_string = `
+    <div class="content_column">
+        <div class="edit-image-container" id="image-container-${post}">
+            <img class="rounded img-fluid" src="${imagesURL}/${post}" alt="${post}">
+            <button class="btn" id="delete-button-${post}" onclick="removeImage('${post}');">delete</button>
+        </div>
+    </div>`;
+    row_element.insertAdjacentHTML("beforeend",image_string);
+}
+
+function displayEditImageGallery(all_posts,imagesURL){
+    if(typeof all_posts !== 'undefined'){
+            let post_element = document.getElementById("edit_images"); //element to put gallery
+            var content_string = `<div class="content_row" id="content_row"></div>`;
+            post_element.insertAdjacentHTML("beforeend",content_string);
+            for(i=0;i<all_posts.length;i++){
+                if(typeof all_posts[i] === 'object'){
+                    uploadNewImage(all_posts[i]);
+                }else{
+                    uploadOriginalImage(all_posts[i],imagesURL);
                 }
-            }else if (images.length == 3 || images.length > 4){
-                var idx = 0;
-                for(i=0;i<3;i++){
-                    content_string += `<div class="content_column_3">`
-                    for(j=0;j<Math.ceil(images.length/3);j++){
-                        if(images[idx] !== undefined && images[idx] !== null){
-                            content_string += `<div class="edit-image-container" id="image-container-${images[idx]}">
-                                <img class="rounded img-fluid" src="${images[idx]}" alt="${images[idx]}">
-                                <button class="btn" id="delete-button-${images[idx]}" onclick="removeImage('${images[idx]}');">delete</button>
-                            </div>
-                            `
-                            idx += 1;
-                        }else{
-                            break;
-                        }
-                    }
-                    content_string += `</div>`;
-                }
-            } else {
-                
             }
-            var post_string = content_string + `</div>`;
-            post_element.insertAdjacentHTML("beforeend",post_string);
     }
 }
 
