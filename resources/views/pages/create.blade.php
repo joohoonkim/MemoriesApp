@@ -23,8 +23,8 @@
                 <p style="color:red;">{{ $errors->first('description') }}</p>
             @endif
             <div class="form-group">
-                <label class="event_date">Event Date (Optional)</label><br>
-                <input type="date" id="event_date" name="event_date">
+                <label class="event_date">Event Date</label><br>
+                {{ Form::date('event_date', date('Y-m-d'), ['id' => 'event_date']) }}  
             </div>
             <div class="form-group">
                 <input id="upload-images" type="file" name="images[]" accept="image/*" onchange="loadImage(event)" style="display: none;" multiple>
@@ -56,7 +56,7 @@
         /* Remove image if "deleted" and display new organized image gallery */
         function removeImage(element){
             $('#edit_images').html("");
-            all_posts = all_posts.filter(item => item.file.name != element)
+            all_posts = all_posts.filter(item => item.file.name != element);
             window.displayEditImageGallery(all_posts);
         };
 
@@ -166,31 +166,32 @@
                 formData.append('images[]',file);
             }
 
-            console.log(image_posts_final);
-            console.log(formData);
-
-            fetch(form.getAttribute('action'), {
-                method: form.getAttribute('method'),
+            $.ajax({
+                url: form.getAttribute('action'),
+                data: formData,
                 redirect: 'follow',
-                body: formData,
+                processData: false,
+                contentType: false,
                 credentials: "same-origin",
                 headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-            }).then(response => {
-                // HTTP 301 response
-                window.location.href = response.url;
-            })
-            .catch(function(err) {
-                console.info(err + " url: " + url);
+                    },
+                type: form.getAttribute('method'),
+                success: function(response){
+                    window.location.pathname = "/";
+                }
             });
         }
 
         /* Listener for submit */
         form.addEventListener('submit', (e) =>{
             e.preventDefault();
-            let file = all_posts[0].file;
-            resizeImage(file);
+            if(all_posts.length > 0){
+                let file = all_posts[0].file;
+                resizeImage(file);
+            }else{
+                sendForm();
+            }
         });
     </script>
 @endsection
